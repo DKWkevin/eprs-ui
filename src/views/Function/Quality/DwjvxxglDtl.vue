@@ -172,42 +172,42 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="单位财务信息" name="fourth">
-        <el-form style="width:800px;margin:0 auto;" :label-width="cwLableWidth">
-          <el-form-item label="单位名称" style="float:left;width:280px;">
+        <el-form style="width:900px;margin:0 auto;" :label-width="cwLableWidth">
+          <el-form-item label="单位名称" style="float:left;width:300px;">
             <el-input v-model="cw.companyname" :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item label="发票名称" style="clear:both;float:left;width:280px;">
+          <el-form-item label="发票名称" style="clear:both;float:left;width:300px;">
             <el-input v-model="cw.invcompanyname"></el-input>
           </el-form-item>
-          <el-form-item label="税号" style="float:left;">
+          <el-form-item label="税号" style="float:left;width:300px">
             <el-input v-model="cw.taxno"></el-input>
           </el-form-item>
-          <el-form-item label="开户行" style="clear:both;float:left;width:280px;">
+          <el-form-item label="开户行" style="clear:both;float:left;width:300px;">
             <el-input v-model="cw.bankname"></el-input>
           </el-form-item>
-          <el-form-item label="帐号" style="float:left;">
+          <el-form-item label="帐号" style="float:left;width:300px">
             <el-input v-model="cw.accno"></el-input>
           </el-form-item>
-          <el-form-item label="所在省" style="clear:both;float:left;width:280px;">
+          <el-form-item label="所在省" style="clear:both;float:left;width:300px;">
             <el-input v-model="cw.state"></el-input>
           </el-form-item>
-          <el-form-item label="所在市" style="float:left;">
+          <el-form-item label="所在市" style="float:left;width:300px">
             <el-input v-model="cw.city"></el-input>
           </el-form-item>
-          <el-form-item label="发票地址" style="clear:both;float:left;width:280px;">
+          <el-form-item label="发票地址" style="clear:both;float:left;width:300px;">
             <el-input v-model="cw.invaddress"></el-input>
           </el-form-item>
-          <el-form-item label="发票电话" style="float:left;">
+          <el-form-item label="发票电话" style="float:left;width:300px">
             <el-input v-model="cw.invphone"></el-input>
           </el-form-item>
-          <el-form-item label="公司类型" style="clear:both;float:left;width:280px;">
+          <el-form-item label="公司类型" style="clear:both;float:left;width:300px;">
             <el-select v-model.number="cw.companytype">
               <el-option :value="1" label="供应商"></el-option>
               <el-option :value="2" label="客户"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="实际发票类型" style="float:left;">
-            <el-select v-model.number="cw.realinvtype" style="width:90%">
+            <el-select v-model.number="cw.realinvtype" style="width:100%">
               <el-option :value="0" label="普票"></el-option>
               <el-option :value="1" label="增值税"></el-option>
             </el-select>
