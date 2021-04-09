@@ -1,0 +1,14 @@
+.wh100{width:100%;}
+.label{font-size: 20px;text-align:center;display:block;margin:15px 0;}
+.wh1024{width:1024px;}
+.wh790{width:790px;}
+.ht100{height:100%;}
+
+.middle {margin:0 auto}
+.fl{float:left}
+.ft14{font-size:14px;font-family: 宋体, serif;color:black;text-align:center}
+.br{border:1px solid black;}
+.doctable{width:100%;font-size:12px;font-family: 宋体, serif;border-collapse:collapse;border-spacing:0;}
+.toptable{width:100%;font-size:14px;font-family: 宋体, serif;border-collapse:collapse;border-spacing:0;}
+.toptable td{border:1px solid black;color:black;text-align: center;height:20px;line-height: 20px;}
+.doctable td{border:1px solid black;color:black;padding:2px 0;text-align: center}

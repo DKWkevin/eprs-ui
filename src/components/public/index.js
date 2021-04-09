@@ -1,0 +1,34 @@
+import Vue from 'vue';
+import EQuerys from "./EQuery";
+import EqueryCollapse from "./EqueryCollapse";
+import ETables from './ETable'
+import ETablesColumns from "./ETablesColumns";
+import ETablesColumnsDateTime from "./ETablesColumnsDateTime";
+import EDialogs from "./EDialogs";
+import ElFormItemInput from "./ElFormItemInput";
+import ElFormItemSelect from "./ElFormItemSelect";
+import ElFormItemHov from "./ElFormItemHov";
+import ElFormRow from "./ElFormRow";
+import ElFormColItemInput from "./ElFormColItemInput";
+import ElFormColItemSelect from "./ElFormColItemSelect";
+import ElFormColItemHov from "./ElFormColItemHov";
+import selectss from "./selectss";
+import EUpload from "./EUpload";
+import EPrint from "./EPrint";
+
+Vue.component('e-querys', EQuerys);
+Vue.component('e-query-collapse', EqueryCollapse);
+Vue.component('e-tables', ETables);
+Vue.component('e-tables-columns', ETablesColumns);
+Vue.component('e-tables-columns-date-time', ETablesColumnsDateTime);
+Vue.component('e-dialogs', EDialogs);
+Vue.component('el-form-item-input', ElFormItemInput);
+Vue.component('el-form-item-select', ElFormItemSelect);
+Vue.component('el-form-item-hov', ElFormItemHov);
+Vue.component('el-form-row', ElFormRow);
+Vue.component('el-form-col-item-input', ElFormColItemInput);
+Vue.component('el-form-col-item-select', ElFormColItemSelect);
+Vue.component('el-form-col-item-hov', ElFormColItemHov);
+Vue.component('selectss', selectss);
+Vue.component('e-upload', EUpload);
+Vue.component('e-print', EPrint);

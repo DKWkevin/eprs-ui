@@ -1,0 +1,233 @@
+#messageDialog .sidebar {
+  float: left;
+  width: 200px;
+  color: #f4f4f4;
+  background: #2e3238;
+  height: 100%;
+}
+
+#messageDialog .el-dialog__header {
+  top: 5px;
+  background: #2e3238;
+}
+
+#messageDialog .el-dialog__headerbtn {
+  top: 5px;
+  color: white;
+}
+
+#messageDialog .el-dialog__body {
+  height: 500px;
+  padding: 0;
+  border-top: 1px solid #ccc;
+}
+
+#messageDialog .my-card {
+  border-bottom: 1px solid #24272c;
+  padding: 5px 0;
+  line-height: normal;
+}
+
+#messageDialog .my-card .imgbox {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}
+
+#messageDialog .my-card .name {
+  display: inline-block;
+  margin: 0 0 0 15px;
+  font-size: 18px;
+  line-height: normal;
+}
+#messageDialog .my-card .header{
+  text-align: initial;
+}
+#messageDialog .my-card .footer {
+  margin-top: 10px;
+  line-height: normal;
+}
+
+#messageDialog .my-card .search {
+  width: 150px;
+  margin-left: 10px;
+}
+
+#messageDialog .my-card .search .el-input__inner {
+  background: #26292e;
+  border: 1px solid #3a3a3a
+}
+
+#messageDialog .m-list {
+  width:100%;
+  height:calc(100% - 88px);
+  overflow-y: auto;
+}
+
+#messageDialog ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#messageDialog .m-list li {
+  padding: 5px 15px;
+  border-bottom: 1px solid #292c23;
+  cursor: pointer;
+  position: relative;
+  line-height:normal;
+}
+
+#messageDialog .m-list .active {
+  background-color: hsla(0, 0%, 100%, 0.1)
+}
+#messageDialog .m-list .name{
+  text-align:center;
+}
+#messageDialog .m-list .read{
+  position: absolute;
+  top:20px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 10px;
+
+  text-align: center;
+}
+#messageDialog .main {
+  position: relative;
+  overflow: hidden;
+  background: #eee;
+  height: 100%;
+}
+#messageDialog .m-header{
+  width:100%;
+  height:30px;
+  background:white;
+  color:#1f1a1a;
+  line-height: 30px;
+  text-align:center;
+}
+#messageDialog .m-message {
+  height: 290px;
+  padding: 10px 15px;
+  overflow-y: auto;
+}
+#messageDialog .chatRight{clear:both;float:right}
+#messageDialog .chatLeft{clear:both;float:left}
+#messageDialog .chatTimeLeft{text-align:left;font-size:12px;font-family: 'Microsoft YaHei';color:#999;margin-right:10px;float:left;line-height:50px;}
+#messageDialog .chatTimeRight{text-align:left;font-size:12px;font-family: 'Microsoft YaHei';color:#999;margin-left:10px;float:right;line-height:50px;}
+#messageDialog .chatTime{font-size:12px;}
+#messageDialog .chatStripLeft {
+  position: relative;
+  margin: 12px;
+  padding: 5px 8px;
+  word-break: break-all;
+  background: #fff;
+  border: 1px solid white;
+  border-radius: 5px;
+  max-width: 80%;
+  float: left;
+  line-height: normal;
+  text-align:left;
+}
+
+#messageDialog .left:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -20px;
+  top: 5px;
+  border: 10px solid;
+  border-color: transparent white transparent transparent;
+  line-height: normal;
+}
+
+#messageDialog .left:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -16px;
+  top: 7px;
+  border: 8px solid;
+  border-color: transparent white transparent transparent;
+  line-height: normal;
+}
+
+#messageDialog .chatStripRight {
+  position: relative;
+  margin: 12px;
+  padding: 5px 8px;
+  word-break: break-all;
+  background: #6FFF62;
+  border: 1px solid #6FFF62;
+  border-radius: 5px;
+  max-width: 80%;
+  float: right;
+  line-height: normal;
+  text-align:right;
+}
+
+#messageDialog .right:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -20px;
+  top: 5px;
+  border: 10px solid;
+  border-color: transparent transparent transparent #6FFF62;
+  line-height: normal;
+}
+
+#messageDialog .right:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -16px;
+  top: 7px;
+  border: 8px solid;
+  border-color: transparent transparent transparent #6FFF62;
+  line-height: normal;
+}
+
+#messageDialog .chatText {
+  position: relative;
+  display: inline-block;
+  min-height: 15px;
+  text-align: left;
+  font-family: 'Microsoft YaHei';
+  word-break: break-word;
+  line-height: normal;
+}
+
+#messageDialog .m-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height:160px;
+  border-top:1px solid #ddd;
+  background:white;
+}
+
+#messageDialog .m-text textarea {
+  padding: 10px;
+  width: 100%;
+  height: 100px;
+  border: none;
+  outline: 0;
+  resize: none;
+}
+#messageDialog .m-text .pressfs{
+  float:right;
+  width:80px;
+  line-height:20px;
+  border:1px solid #ccc;
+  margin-right:5px;
+  margin-top:-15px;
+}
