@@ -34,6 +34,7 @@ import * as pfsales from './modules/pfsales'
 import * as qualitysearch from './modules/qualitysearch'
 import * as counter from './modules/counter'
 import * as jzt from './modules/jzt'
+import * as giftmanagement from './modules/giftmanagement'
 
 // 默认全部导出
 export default {
@@ -69,5 +70,6 @@ export default {
   pfsales,
   qualitysearch,
   counter,
-  jzt
+  jzt,
+  giftmanagement
 }

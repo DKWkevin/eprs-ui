@@ -14,7 +14,6 @@
 
 <script>
   import { hasPermission } from '../../permission'
-  import {uploadExecl} from "../../utils/execl";
   import XLSX from "xlsx";
   export default {
     name: "EUpload",

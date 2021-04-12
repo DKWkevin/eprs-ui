@@ -101,9 +101,6 @@ export default {
                 goodsqty: null, // 数量
                 total: null, // 金额
 
-                supplyid: null,// 供应商ID
-                supplyname: null,// 供应商名称
-
                 lotno: null, // 金额
 
                 companyid: null,// 公司ID
@@ -229,14 +226,15 @@ export default {
                 parentVisible: 'sprk_counterVisible',
                 hovColumns:
                     [
-                        { id: "counterid", name: "公司ID", queryStatus: true, dataStatus: 2, fillid: "counterid" },
-                        { id: "countername", name: "公司名称", queryStatus: true, dataStatus: 1, fillid: "countername" },
-                        { id: "companyopcode", name: "公司操作码", queryStatus: true, dataStatus: 1 },
+                        { id: "counterid", name: "门店ID", queryStatus: true, dataStatus: 2, fillid: "counterid" },
+                        { id: "countername", name: "门店名称", queryStatus: true, dataStatus: 1, fillid: "countername" },
+                        { id: "companyopcode", name: "操作码", queryStatus: true, dataStatus: 1 },
+                        { id: "companyid", name: "公司ID", queryStatus: true, dataStatus: 2,display:1,value:sessionStorage.getItem("companyid") },
                     ]
             },
         };
     },
-    created() { 
+    created() {
         this.sprk_formData.begindate = new Date(this.getNewDate()+" 00:00:00");
         this.sprk_formData.enddate = new Date(this.getNewDate()+" 23:59:59");
     },
@@ -340,7 +338,7 @@ export default {
             this.sprk_base.inputmanname = sessionStorage.getItem("username");
 
             //temp
-            this.sprk_base.unitprice = 5.25
+            //this.sprk_base.unitprice = 5.25
 
             this.openDialog();
         },
@@ -368,7 +366,7 @@ export default {
         // 新增
         insert() {
             let params = this.sprk_base
-            
+
             console.log("商品入库 insert p ", params);
             this.$api.giftmanagement
                 .insertSprk(params)
@@ -421,7 +419,7 @@ export default {
             let qty = parseFloat(this.sprk_base.goodsqty);
             let price = parseFloat(this.sprk_base.unitprice);
             let total = (qty * 100) * (price * 100) / 10000;
-            total = Math.round(total * 100) / 100  
+            total = Math.round(total * 100) / 100
             this.sprk_base.total = total;
         },
 

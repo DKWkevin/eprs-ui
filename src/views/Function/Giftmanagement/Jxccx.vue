@@ -21,7 +21,7 @@
 
       <!-- <el-table-column type="selection"></el-table-column> -->
 
-      <el-table-column
+      <!-- <el-table-column
         prop="caozuo"
         width="120"
         label="操作"
@@ -36,7 +36,7 @@
             @click="update(scope.row, scope.$index)"
           ></kt-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
       <el-table-column
          v-for="(item ,index) in jxccx_tableColumns"

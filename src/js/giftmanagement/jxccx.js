@@ -206,6 +206,7 @@ export default {
                         { id: "counterid", name: "公司ID", queryStatus: true, dataStatus: 2, fillid: "counterid" },
                         { id: "countername", name: "公司名称", queryStatus: true, dataStatus: 1, fillid: "countername" },
                         { id: "companyopcode", name: "公司操作码", queryStatus: true, dataStatus: 1 },
+                        { id: "companyid", name: "公司ID", queryStatus: true, dataStatus: 2,display:1,value:sessionStorage.getItem("companyid") },
                     ]
             },
         };

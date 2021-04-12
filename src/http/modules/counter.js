@@ -283,3 +283,77 @@ export const selectJqdyPrint = (data)=>{
         data
     })
 }
+//门店订单请货人员部门公司查询
+export const selectDdpzphEmpDept = (data)=>{
+  return axios({
+    url: '/ddpzph/empdept',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货
+export const selectDdpzph = (data)=>{
+  return axios({
+    url: '/ddpzph/select',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货作废细单
+export const invoidDdpzph = (data)=>{
+  return axios({
+    url: '/ddpzph/invoid',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货确认细单
+export const confirmDdpzph = (data)=>{
+  return axios({
+    url: '/ddpzph/confirm',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货提前生成销售
+export const createDdpzph = (data)=>{
+  return axios({
+    url: '/ddpzph/createsadoc',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货提前生成销售
+export const insertDdpzph = (data)=>{
+  return axios({
+    url: '/ddpzph/insert',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货修改配送地址
+export const selectDdpzphGoodsBase = (data)=>{
+  return axios({
+    url: '/ddpzph/selectgoodsbase',
+    method: 'post',
+    data
+  })
+}
+
+//门店订单请货修改配送地址
+export const selectDdpzphGoodsRemqty = (data)=>{
+  return axios({
+    url: '/ddpzph/selectgoodsremqty',
+    method: 'post',
+    data
+  })
+}
+
+//门店订单请货修改配送地址
+export const insertDdpzphAddress = (data)=>{
+  return axios({
+    url: '/ddpzph/updateaddress',
+    method: 'post',
+    data
+  })
+}

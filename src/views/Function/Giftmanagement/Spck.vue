@@ -86,16 +86,16 @@
             <el-col :span="12">
               <el-form-item label="门店ID">
                 <el-input
-                  style="width:130px;"
+                  style="width:160px;"
                   v-model.number="spck_base.counterid"
                   :disabled="true"
                 ></el-input>
-                <el-button
+                <!-- <el-button
                   circle
                   icon="el-icon-search"
                   @click="openDailogHov('counterid')"
                   v-if="spck_dtlstatus == false"
-                ></el-button>
+                ></el-button> -->
               </el-form-item>
             </el-col>
 
@@ -214,7 +214,7 @@
 
             <el-col :span="12">
               <el-form-item label="批号">
-                <el-input v-model="spck_base.lotno"></el-input>
+                <el-input v-model="spck_base.lotno" disabled></el-input>
               </el-form-item>
             </el-col>
 
@@ -243,14 +243,12 @@
             type="primary"
             round
             @click="save"
-          >保存
-          </el-button>
+          >保存</el-button>
           <el-button
             type="info"
             round
             @click="closeDialog"
-          >取消
-          </el-button>
+          >取消</el-button>
         </div>
       </el-dialog>
     </div>
