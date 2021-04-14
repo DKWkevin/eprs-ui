@@ -5,7 +5,6 @@ import {
 } from "@/utils/functions";
 
 export default {
-  components: {EQuery, ETable, HovTools, KtButton},
   data() {
     return {
       cgrkysjl_formList: [

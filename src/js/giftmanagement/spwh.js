@@ -219,6 +219,8 @@ export default {
         selectDoc(pageNum, pageSize) {
 
             let params = paramsFormat(this.spwh_formData);
+            if(params == null) params = {}
+            params.companyid = sessionStorage.getItem("companyid");
 
             this.spwh_loading = true;
             this.spwh_tableData = [];

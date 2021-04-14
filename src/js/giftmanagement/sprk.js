@@ -250,7 +250,8 @@ export default {
         selectDoc(pageNum, pageSize) {
 
             let params = paramsFormat(this.sprk_formData);
-
+            if(params == null) params = {}
+            params.companyid = sessionStorage.getItem("companyid");
             params.begindate = dateFormat('YYYY/mm/dd HH:MM:SS',params.begindate)
             params.enddate = dateFormat('YYYY/mm/dd HH:MM:SS',params.enddate)
 

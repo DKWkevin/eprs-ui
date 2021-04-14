@@ -183,10 +183,10 @@ export default {
             if(res.data.classoutermutex!==null){
               let flagName = "";
               if(res.data.classoutermutex === 0) {
-                flagName = "不互斥";
+                flagName = "兼得";
                 this.flagName = "有单子为"+flagName+",请谨慎使用";
               } else if(res.data.classoutermutex === 1) {
-                flagName = "互斥";
+                flagName = "不兼得";
                 this.flagName = "有单子为"+flagName+",请谨慎使用";
               }
               this.base.classOuterMutex = res.data.classoutermutex;

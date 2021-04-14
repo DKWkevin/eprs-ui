@@ -7,7 +7,9 @@ export default {
         goodsid:null,
         fpzt:null
       },
-      ddpzphFpztOptions: [],
+      btnDisabled:false,
+      mdidDisabled:false,
+      ddpzphFpztOptions: [{value:0,label:'未分配'},{value:1,label:'已分配'}],
       emplevels:null,
       deptid:null,
       ddpzphTableData:[],
@@ -28,6 +30,7 @@ export default {
       ddpzphTableDtlData:[],
       mdremqty:null,
       mdrealprice:null,
+      wlkcqty:null,
       psfsStatus:false,
       psfs:null,
       address:null,
@@ -58,21 +61,26 @@ export default {
     this.ddpzphTableHeight = (window.innerHeight - 240);
     this.ddpzphDialogHeight = (window.innerHeight - 120);
     this.ddpzphDialogWidth = (window.innerWidth - 240);
-    //this.selectDept();
+    this.selectDept();
   },
   methods:{
     selectDept () {
       this.$api.counter.selectDdpzphEmpDept({employeeid: Number(sessionStorage['userid'])}).then(res => {
         if (res.code === 200) {
-          this.emplevels = res.data.emplevels;
+          this.emplevels = res.data.levels;
           this.deptid = res.data.deptid;
+          if(res.data.emplevels === 1){
+            this.ddpzphQueryFrom.mdid = res.data.deptid;
+            this.btnDisabled = true;
+            this.mdidDisabled = true;
+          }
         }
       }).catch(() => {
         return false;
       })
     },
     selectFunction(){
-      this.selectDoc(1, this.dqndthsqPageSize);
+      this.selectDoc(1, this.ddpzphPageSize);
     },
     handleChange(data){
       this.selectDoc(data.pageNum, data.pageSize);
@@ -90,7 +98,7 @@ export default {
         if (res.code === 200) {
           this.ddpzphTableData = res.data.content;
           this.ddpzphPageNum = res.data.pageNum;
-          this.dqndthsqPageSize = res.data.pageSize;
+          this.ddpzphPageSize = res.data.pageSize;
           this.ddpzphTotal = res.data.totalSize;
           this.ddpzphLoading = false;
         }
@@ -168,7 +176,17 @@ export default {
         return false;
       }
       if(confirm("是否修改地址") === true){
-        this.ddpzphPsdzVisible = true;
+        this.$api.counter.selectDdpzphAddress({mdid: row.mdid}).then(res => {
+          if(res.code === 200) {
+            this.ddpzphPsdzForm.mdid = row.mdid;
+            this.ddpzphPsdzForm.address = res.data.address;
+            this.ddpzphPsdzForm.phone = res.data.phone;
+            this.addressStatus = false;
+            this.ddpzphPsdzVisible = true;
+          }
+        }).catch(() => {
+          return false;
+        })
       }else {
         createDdpzphs();
       }
@@ -225,6 +243,8 @@ export default {
       this.$api.counter.selectDdpzphGoodsBase(params).then(res => {
         if (res.code === 200) {
           this.ddpzphTableDocData = res.data;
+          this.psfsStatus = false;
+          this.cellDocClick(res.data[0]);
         }
       }).catch(() => {
         return false;
@@ -232,12 +252,24 @@ export default {
     },
     cellDocClick(row){
       this.formIsNull(this.insertDoc);
-      this.insertDoc.mdid = row.mdid;
+      this.insertDoc.mdid = this.deptid;
       this.insertDoc.goodsid = row.goodsid;
       this.insertDoc.unitprice = row.price;
-      this.mdremqty = row.mdremqty;
-      this.mdrealprice = row.mdrealprice;
+      this.insertDoc.goodsqty = null;
+      this.wlkcqty = row.remqty;
+      this.psfsStatus = false;
+      this.selectMdkc(this.deptid, row.goodsid);
       this.selectInsertDtl(row.goodsid);
+    },
+    selectMdkc(mdid,goodsid){
+      this.$api.counter.selectDdpzphMdkc({goodsid:goodsid,mdid:mdid}).then(res => {
+        if (res.code === 200) {
+          this.mdremqty = res.data.mdremqty;
+          this.mdrealprice = res.data.mdrealprice;
+        }
+      }).catch(() => {
+        return false;
+      })
     },
     selectInsertDtl(goodsid){
       this.ddpzphTableDtlData = [];
@@ -248,6 +280,16 @@ export default {
       }).catch(() => {
         return false;
       })
+    },
+    selectAddress(){
+      if(this.psfs === 2){
+        this.$api.counter.selectDdpzphAddress({mdid: this.ddpzphQueryDocFrom.mdid}).then(res => {
+          this.address = res.data.address;
+          this.phone = res.data.phone;
+        }).catch(() => {
+          return false;
+        })
+      }
     },
     openPsdz(){
       this.ddpzphPsdzForm.mdid =  this.ddpzphQueryDocFrom.mdid;
@@ -314,7 +356,15 @@ export default {
       let hovUrl = null;
       let hovColumns = [];
       if (data === "mdid") {
-
+        hovTitle = "门店查询";
+        hovUrl = "counteridhov/selectcounterid";
+        hovColumns = [
+          {id: "counterid", name: "门店ID",queryStatus:true,dataStatus:2,fillid:"mdid"},
+          {id: "countername", name: "门店名称",queryStatus:true,dataStatus:1},
+        ];
+        if (this.emplevels === 2) {
+          hovColumns.push({id: "companyid", name: "",queryStatus:true,dataStatus:1,display:1,value:this.deptid});
+        }
       }else if(data === "goodsid"){
         hovTitle = "货品查询";
         hovUrl = "goodsidhov/select";
@@ -338,7 +388,13 @@ export default {
       let hovUrl = null;
       let hovColumns = [];
       if (data === "mdid") {
-
+        hovTitle = "门店查询";
+        hovUrl = "counteridhov/selectcounterid";
+        hovColumns = [
+          {id: "counterid", name: "门店ID",queryStatus:true,dataStatus:2,fillid:"mdid"},
+          {id: "countername", name: "门店名称",queryStatus:true,dataStatus:1},
+          {id: "companyid", name: "",queryStatus:true,dataStatus:1,display:1,value:this.deptid}
+        ];
       }else if(data === "goodsid"){
         hovTitle = "货品查询";
         hovUrl = "goodsidhov/select";
@@ -361,7 +417,6 @@ export default {
       this.formIsNull(this.ddpzphQueryDocFrom);
       this.ddpzphTableDocData = [];
       this.ddpzphTableDtlData = [];
-      this.addressStatus= false;
       this.ddpzphInsertVisible = false;
     },
     closePsdz(){
@@ -372,17 +427,21 @@ export default {
       return "background:linear-gradient(#CDDEF9, #ECF3F9  60%)";
     },
     goodsqtyFormat(){
-      if (this.mdremqty!==null&&this.mdremqty!=="") {
+      if (this.wlkcqty!==null&&this.wlkcqty!=="") {
         if(this.insertDoc.goodsqty!==null&&this.insertDoc.goodsqty!=="") {
-          if (Number(this.mdremqty) > Number(this.insertDoc.goodsqty)) {
+          if (Number(this.wlkcqty) > Number(this.insertDoc.goodsqty)) {
             this.psfsStatus = true;
+            this.psfs = 1;
           } else {
+            this.psfs = null;
             this.psfsStatus = false;
           }
         } else {
+          this.psfs = null;
           this.psfsStatus = false;
         }
       } else {
+        this.psfs = null;
         this.psfsStatus = false;
       }
     }

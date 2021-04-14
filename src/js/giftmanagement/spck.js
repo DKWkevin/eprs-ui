@@ -186,24 +186,10 @@ export default {
             spck_goodsHov: {
                 hovTitle: "商品信息查询",
                 hovUrl: "fgzpckhov/select",
-                afterStatus: false,
+                afterStatus: true,
                 fillDataName: "spck_formData",
                 parentVisible: "spck_goodsVisible",
                 hovColumns: [
-                    {
-                        id: "supplyid",
-                        name: "供应商ID",
-                        queryStatus: false,
-                        dataStatus: 2,
-                        fillid: "supplyid"
-                    },
-                    {
-                        id: "supplyname",
-                        name: "供应商名称",
-                        queryStatus: false,
-                        dataStatus: 1,
-                        fillid: "supplyname"
-                    },
                     {
                         id: "goodsid",
                         name: "货品ID",
@@ -247,7 +233,13 @@ export default {
                         dataStatus: 2,
                         fillid: "unitprice"
                     },
-
+                    {
+                        id: "remqty",
+                        name: "数量",
+                        queryStatus: false,
+                        dataStatus: 2,
+                        fillid: "goodsqty"
+                    },
                     {
                         id: "lotno",
                         name: "批号",

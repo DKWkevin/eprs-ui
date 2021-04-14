@@ -357,3 +357,21 @@ export const insertDdpzphAddress = (data)=>{
     data
   })
 }
+//门店订单请货修改配送地址
+export const selectDdpzphMdkc = (data)=>{
+  return axios({
+    url: '/ddpzph/selectmdremprice',
+    method: 'post',
+    data
+  })
+}
+//门店订单请货修改配送地址
+export const selectDdpzphAddress = (data)=>{
+  return axios({
+    url: '/ddpzph/selectaddress',
+    method: 'post',
+    data
+  })
+}
+
+

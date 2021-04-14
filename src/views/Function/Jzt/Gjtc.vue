@@ -148,17 +148,22 @@
       </el-dialog>
     </div>
 
+    <!--打印-->
+    <e-print
+      ref="print"
+      iframe-url="Gjtcdy"
+      :dtl-data="gjtc_base.allid"
+    ></e-print>
+
   </div>
 </template>
 <script>
-import EQuery from "@/views/Core/EQuery";
-import ETable from "@/views/Core/ETable";
-import HovTools from "@/views/Core/HovTools";
-import KtButton from "@/views/Core/KtButton"
 import { paramsFormat, formDataReset } from "@/utils/functions";
 
+import EPrint from "@/components/public/EPrint";
+
 export default {
-  components: { EQuery, ETable, HovTools , KtButton},
+  components: {EPrint},
   data() {
     return {
       gjtc_formList: [
@@ -219,7 +224,13 @@ export default {
           tableStatus: 0
         },
         { prop: "supplyid", label: "供应商ID", type: 0, tableStatus: 0 },
-        { prop: "supplyname", label: "供应商名称", type: 0, tableStatus: 0, width:150,},
+        {
+          prop: "supplyname",
+          label: "供应商名称",
+          type: 0,
+          tableStatus: 0,
+          width: 150
+        },
         { prop: "total", label: "金额", type: 0, tableStatus: 0 },
         {
           prop: "jzt_usestatusname",
@@ -245,13 +256,13 @@ export default {
           width: 150,
           tableStatus: 0
         },
-        
+
         {
           prop: "caozuo",
           label: "操作",
           type: 1,
           fixed: "right",
-          width: 200,
+          width: 260,
           widthStatus: true,
           tableStatus: 0,
           options: [
@@ -268,6 +279,12 @@ export default {
               label: "出库明细",
               perms: "gjtchc:select"
               //perms:"gjtc:selectdtl",
+            },
+            {
+              id: "print",
+              icon: "fa fa-quary",
+              label: "打印",
+              perms: "gjtcprint:select"
             }
           ]
         }
@@ -381,6 +398,7 @@ export default {
       gjtc_dialogLabelWidth: "120px",
 
       gjtc_base: {
+        allid:{},
         subackdocid: null, // 进货退货通知单
         supplyid: null, // 供应商ID
         companyname: null, //供应商名称
@@ -453,7 +471,9 @@ export default {
       ],
       gjtc_tableData_2: [],
       gjtc_tableHeight_2: 350,
-      gjtc_loading_2: false
+      gjtc_loading_2: false,
+
+      gjtc_printVisible: false
     };
   },
 
@@ -475,6 +495,11 @@ export default {
         this.upload(data.row);
       } else if (data.id == "selectdtl") {
         this.selectDtl(data.row);
+      } else if (data.id == "print") {
+        this.gjtc_base.allid.subackdocid = data.row.subackdocid
+        //this.gjtc_base.allid = { subackdocid: data.row.subackdocid };
+        console.log(this.gjtc_base.allid)
+        this.$refs.print.status = true;
       }
     },
     handleFunction_2(data) {
@@ -519,8 +544,8 @@ export default {
             this.$refs.doctable.currentPage = res.data.pageNum;
             this.$refs.doctable.total = res.data.totalSize;
             this.gjtc_loading = false;
-          }else{
-            alert(res.msg)
+          } else {
+            alert(res.msg);
           }
         })
         .catch(error => {
@@ -572,8 +597,8 @@ export default {
           if (res.code == 200) {
             alert("保存成功");
             this.afterSave();
-          }else{
-            alert(res.msg)
+          } else {
+            alert(res.msg);
           }
         })
         .catch(e => {
@@ -599,8 +624,8 @@ export default {
         .then(res => {
           if (res.code == 200) {
             alert("同步成功");
-          }else{
-            alert(res.msg)
+          } else {
+            alert(res.msg);
           }
         })
         .catch(e => {
@@ -625,8 +650,8 @@ export default {
           this.gjtc_base.code = res.code;
           if (res.code === 200 || res.code === 201) {
             this.gjtc_tableData_2 = Object.freeze(res.data);
-          }else{
-            alert(res.msg)
+          } else {
+            alert(res.msg);
           }
           this.gjtc_loading_2 = false;
         })
@@ -651,8 +676,8 @@ export default {
             alert("记账成功");
             this.closeDialog_2();
             this.afterSave();
-          }else{
-            alert(res.msg)
+          } else {
+            alert(res.msg);
           }
         })
         .catch(e => {
@@ -670,6 +695,13 @@ export default {
     setTableHeight() {
       // 设置表格高度
       this.gjtc_tableHeight = window.innerHeight - 240;
+    },
+
+    closePrint() {
+      this.gjtc_printVisible = false;
+    },
+    openPrint() {
+      this.gjtc_printVisible = true;
     }
   },
   created() {

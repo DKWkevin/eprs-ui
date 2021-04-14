@@ -199,7 +199,7 @@
 
             <el-col :span="12">
               <el-form-item label="数量">
-                <el-input v-model="spck_base.goodsqty" @blur="getTotal"></el-input>
+                <el-input v-model="spck_base.goodsqty" @blur="getTotal" :disabled="true"></el-input>
               </el-form-item>
             </el-col>
 
@@ -214,7 +214,7 @@
 
             <el-col :span="12">
               <el-form-item label="批号">
-                <el-input v-model="spck_base.lotno" disabled></el-input>
+                <el-input v-model="spck_base.lotno" :disabled="true"></el-input>
               </el-form-item>
             </el-col>
 
@@ -256,6 +256,7 @@
     <hov-tools
       v-if="spck_goodsVisible"
       :hov-data="spck_goodsHov"
+      @updatehov="getTotal"
     ></hov-tools>
 
     <hov-tools

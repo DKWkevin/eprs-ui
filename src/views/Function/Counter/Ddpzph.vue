@@ -3,7 +3,7 @@
   <e-querys>
     <template v-slot:query>
       <el-form :model="ddpzphQueryFrom" label-width="70px" label-position="right">
-        <el-form-item-hov v-model="ddpzphQueryFrom.mdid" prop="mdid" label="门店ID" id="mdid" @openHov="queryHov"></el-form-item-hov>
+        <el-form-item-hov v-model="ddpzphQueryFrom.mdid" prop="mdid" label="门店ID" id="mdid" :btnDisabled="btnDisabled" :disabled="mdidDisabled" @openHov="queryHov"></el-form-item-hov>
         <el-form-item-hov v-model="ddpzphQueryFrom.goodsid" prop="goodsid" label="货品ID" id="goodsid" @openHov="queryHov"></el-form-item-hov>
         <el-form-item-select v-model="ddpzphQueryFrom.fpzt" prop="fpzt" label="分配状态" :options="ddpzphFpztOptions"></el-form-item-select>
       </el-form>
@@ -57,7 +57,7 @@
     <el-form label-width="0" class="ddpzphForm">
       <el-form-item>
         <el-form :model="ddpzphQueryDocFrom" :inline="true" label-width="80px;" label-position="right">
-          <el-form-item-hov v-if="emplevels === 2" prop="mdid" label="门店ID" id="mdid" v-model="ddpzphQueryDocFrom.mdid" hovWidth="120px"  @openHov="queryDocHov"></el-form-item-hov>
+          <el-form-item-hov v-show="emplevels === 2" prop="mdid" label="门店ID" id="mdid" v-model="ddpzphQueryDocFrom.mdid" hovWidth="120px"  @openHov="queryDocHov"></el-form-item-hov>
           <el-form-item-hov prop="goodsid" label="货品ID" id="goodsid" v-model="ddpzphQueryDocFrom.goodsid" hovWidth="120px"></el-form-item-hov>
           <el-form-item-input prop="goodsopcode" label="货品操作码" v-model="ddpzphQueryDocFrom.goodsopcode" inputWidth="120px"></el-form-item-input>
           <el-form-item-input prop="prodarea" label="货品产地" v-model="ddpzphQueryDocFrom.prodarea"></el-form-item-input>
@@ -72,18 +72,18 @@
           :stripe="true"
           :header-cell-style="headerStyle"
           :height="200"
-          @row-dblclick="cellDocClick"
+          @row-click="cellDocClick"
           border
         >
-          <el-table-column prop="goodsid" label="货品ID"></el-table-column>
+          <el-table-column prop="goodsid" label="货品ID" width="80px"></el-table-column>
           <el-table-column prop="goodsname" label="品名"></el-table-column>
-          <el-table-column prop="goodstype" label="规格"></el-table-column>
+          <el-table-column prop="goodstype" label="规格"  width="120px"></el-table-column>
           <el-table-column prop="prodarea" label="产地"></el-table-column>
-          <el-table-column prop="price" label="配送价"></el-table-column>
-          <el-table-column prop="remqty" label="库存"></el-table-column>
-          <el-table-column prop="zb" label="中包"></el-table-column>
-          <el-table-column prop="db" label="大包"></el-table-column>
-          <el-table-column prop="memo" label="备注"></el-table-column>
+          <el-table-column prop="price" label="配送价" width="80px"></el-table-column>
+          <el-table-column prop="remqty" label="库存" width="80px"></el-table-column>
+          <el-table-column prop="zb" label="中包" width="80px"></el-table-column>
+          <el-table-column prop="db" label="大包" width="80px"></el-table-column>
+          <el-table-column prop="memo" label="备注" width="80px"></el-table-column>
         </el-table>
       </el-form-item>
       <el-form-item>
@@ -117,7 +117,7 @@
         <div style="clear: both"  v-if="psfsStatus">
           <el-form :inline="true" style="float: left;margin-bottom: 10px;">
             <el-form-item label="配送方式">
-              <el-select v-model="psfs">
+              <el-select v-model="psfs" @change="selectAddress">
                 <el-option :value="1" label="跟随物流配送车"></el-option>
                 <el-option :value="2" label="快运"></el-option>
               </el-select>
