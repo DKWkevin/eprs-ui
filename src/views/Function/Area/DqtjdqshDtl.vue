@@ -150,11 +150,11 @@
             [
               {id: "goodsid", name: "货品ID",queryStatus:true,dataStatus:2,fillid:"goodsid"},
               {id: "goodsname", name: "货品名称",queryStatus:true,dataStatus:1},
-              {id: "opcode", name: "货品操作码",queryStatus:true,dataStatus:1},
+              {id: "opcode", name: "货品操作码",queryStatus:false,dataStatus:1},
               {id: "stcompanyid", name: "stcompanyid",value:null,queryStatus:true,dataStatus:1,tableStatus:1,display:1},
               {id: "lotid", name: "批号ID",queryStatus:false,dataStatus:1,fillid:'lotid'},
               {id: "outbatchid", name: "外部批次ID",queryStatus:false,dataStatus:1,fillid:'outbatchid'},
-              {id: "inbatchid", name: "内部批次ID",queryStatus:false,dataStatus:1,fillid:'inbatchid'},
+              {id: "inbatchid", name: "内部批次ID",queryStatus:true,dataStatus:1,fillid:'inbatchid'},
               {id: "remqty", name: "库存",queryStatus:false,dataStatus:1,fillid:'kc'},
             ]
         },

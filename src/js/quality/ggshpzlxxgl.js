@@ -1,4 +1,5 @@
 import {selectDdlOption} from "@/utils/functions";
+import {dateFormat} from "../../utils/functions";
 export default {
   name: "Ggshpzlxxgl",
   data(){
@@ -35,7 +36,7 @@ export default {
         approvedocno:null,
         productapprovno:null,
         approveno:null,
-        approvePeriod:null,
+        approveperiod:null,
         qualitystandardno:null,
         qualitystandardperiod:null,
         inspectionno:null,
@@ -44,7 +45,11 @@ export default {
         commissproduceperiod:null,
         trademark:null,
         sampleflag:null,
-        packstandard:null
+        packstandard:null,
+        patentno: null,
+        patentperiod: null,
+        patentpackno: null,
+        patentpackperiod: null
       },
       GgshpzlxxglUsestatusOptions:[],
       GgshpzlxxglInformationclassOptions:[],
@@ -114,6 +119,8 @@ export default {
     //新增加载表单
     addOpen(){
       this.formIsNull(this.GgshpzlxxglDtlForm);
+      this.GgshpzlxxglDtlForm.companyid = Number(sessionStorage['companyid']);
+      this.GgshpzlxxglDtlForm.companyname = sessionStorage['companyname'];
       this.GgshpzlxxglDtlForm.packstandard = 1;
       this.GgshpzlxxglDialog = '新增表单';
       this.GgshpzlxxglDtlStatus = false;
@@ -121,8 +128,15 @@ export default {
     },
     //新增提交表单
     addForm(){
-      console.log(1212)
       if(confirm("是否确认保存") === true) {
+        let params = {};
+        Object.keys(this.GgshpzlxxglDtlForm).forEach(item => {
+          if(item === "approveperiod"||item === "qualitystandardperiod"||item === "inspectionperiod"||item === "commissproduceperiod"||item === "patentperiod"||item === "patentpackperiod"){
+            params[item] = new Date(this.GgshpzlxxglDtlForm[item]);
+          }else{
+            params[item] = this.GgshpzlxxglDtlForm[item];
+          }
+        })
         this.$api.quality.insertGgshpzlxxgl(this.GgshpzlxxglDtlForm).then(res => {
           if (res.code === 200) {
             alert("保存成功");
@@ -141,7 +155,11 @@ export default {
     //修改加载表单
     updateOpen(row, index){
       Object.keys(this.GgshpzlxxglDtlForm).forEach(item => {
-        this.GgshpzlxxglDtlForm[item] = row[item];
+        if(item === "approveperiod"||item === "qualitystandardperiod"||item === "inspectionperiod"||item === "commissproduceperiod"||item === "patentperiod"||item === "patentpackperiod"){
+          this.GgshpzlxxglDtlForm[item] = dateFormat("YYYY-mm-dd HH:MM:SS", row[item]);
+        }else{
+          this.GgshpzlxxglDtlForm[item] = row[item];
+        }
       })
       this.GgshpzlxxglIndex = index;
       this.GgshpzlxxglDialog = '修改表单';
@@ -151,7 +169,15 @@ export default {
     //修改提交表单
     updateForm(){
       if(confirm("是否确认修改") === true) {
-        this.$api.quality.updateGgshpzlxxgl(this.GgshpzlxxglDtlForm).then(res => {
+        let params = {};
+        Object.keys(this.GgshpzlxxglDtlForm).forEach(item => {
+          if(item === "approveperiod"||item === "qualitystandardperiod"||item === "inspectionperiod"||item === "commissproduceperiod"||item === "patentperiod"||item === "patentpackperiod"){
+            params[item] = new Date(this.GgshpzlxxglDtlForm[item]);
+          }else{
+            params[item] = this.GgshpzlxxglDtlForm[item];
+          }
+        })
+        this.$api.quality.updateGgshpzlxxgl(params).then(res => {
           if (res.code === 200) {
             alert("修改成功");
             this.dialogClose();
@@ -226,7 +252,7 @@ export default {
       let hovColumns = [];
       if (data === 'goodsid') {
         hovTitle = "货品查询";
-        hovUrl = "goodsidhov/select";
+        hovUrl = "ggshpzlxxgl/goodsselect";
         fillDataName = 'GgshpzlxxglDtlForm';
         hovColumns =
           [
@@ -235,10 +261,10 @@ export default {
             {id: "opcode", name: "货品操作码",queryStatus:true,dataStatus:1},
             {id: "goodstype", name: "规格",queryStatus:false,dataStatus:1,fillid:"goodstype"},
             {id: "goodsunit", name: "单位",queryStatus:false,dataStatus:1,fillid:"goodsunit"},
-            {id: "prodarea", name: "产地",queryStatus:false,dataStatus:1},
+            {id: "standardCode", name: "质量标准编号",queryStatus:false,dataStatus:1,fillid:"qualitystandardno"},
             {id: "goodsno", name: "编码",queryStatus:false,dataStatus:1,fillid:"goodsno"},
             {id: "factid", name: "生产企业",queryStatus:false,dataStatus:1,fillid:"factid"},
-            {id: "factname", name: "生产企业名称",queryStatus:false,dataStatus:1,fillid:"factname"}
+            {id: "companyname", name: "生产企业名称",queryStatus:false,dataStatus:1,fillid:"factname"}
           ]
       }else if(data === 'companyid'){
         hovTitle = "公司查询";

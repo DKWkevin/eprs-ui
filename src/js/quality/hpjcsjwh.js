@@ -84,6 +84,7 @@ export default {
       bzuseStatusOptions:[],
       cgzcOptions:[],
       categoryid2Options:[],
+      rolelayerOptions:[],
       docTitle:''
     }
   },
@@ -134,6 +135,13 @@ export default {
           tel.label = e.categoryname2;
           this.categoryid2Options.push(tel);
         })
+      }
+    }).catch(error => {
+      return false;
+    });
+    this.$api.quality.selectHpjcsjwhRolelayer().then(res => {
+      if(res.code===200){
+        this.rolelayerOptions = res.data;
       }
     }).catch(error => {
       return false;

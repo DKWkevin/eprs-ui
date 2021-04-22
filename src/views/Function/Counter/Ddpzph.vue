@@ -10,7 +10,7 @@
     </template>
     <template v-slot:button>
       <kt-button type="primary" icon="fa fa-search" label="查询" perms="counter:ddpzqh:select" @click="selectFunction"></kt-button>
-      <kt-button type="primary" icon="fa fa-plus" label="新增" perms="counter:ddpzqh:insert" @click="insertOpen"></kt-button>
+      <kt-button v-if="emplevels !== 3" type="primary" icon="fa fa-plus" label="新增" perms="counter:ddpzqh:insert" @click="insertOpen"></kt-button>
     </template>
   </e-querys>
   <e-tables
@@ -27,7 +27,7 @@
     <e-tables-columns prop="reqdtlid" label="请货细单"></e-tables-columns>
     <e-tables-columns-date-time prop="credate" label="日期" width="150"></e-tables-columns-date-time>
     <e-tables-columns prop="mdid" label="门店ID"></e-tables-columns>
-    <e-tables-columns prop="Companyname" label="门店名称"></e-tables-columns>
+    <e-tables-columns prop="companyname" label="门店名称"></e-tables-columns>
     <e-tables-columns prop="goodsid" label="货品ID"></e-tables-columns>
     <e-tables-columns prop="goodsname" label="货品名称"></e-tables-columns>
     <e-tables-columns prop="goodstype" label="规格"></e-tables-columns>
@@ -36,20 +36,35 @@
     <e-tables-columns prop="goodsqty" label="数量"></e-tables-columns>
     <e-tables-columns prop="unitprice" label="单价"></e-tables-columns>
     <e-tables-columns prop="fpsl" label="分配数量"></e-tables-columns>
-    <e-tables-columns prop="fpzt" label="分配状态"></e-tables-columns>
+    <el-table-column prop="fpzt" label="分配状态">
+      <template slot-scope="scope">
+        <div v-if="scope.row.fpzt === 1">已分配</div>
+        <div v-if="scope.row.fpzt === 0">未分配</div>
+      </template>
+    </el-table-column>
     <e-tables-columns prop="employeename" label="录入人"></e-tables-columns>
     <e-tables-columns-date-time prop="fprq" label="分配日期" width="150"></e-tables-columns-date-time>
     <e-tables-columns prop="salesid" label="销售单号"></e-tables-columns>
-    <e-tables-columns prop="usestatus" label="单据状态"></e-tables-columns>
+    <el-table-column prop="usestatus" label="单据状态">
+      <template slot-scope="scope">
+        <div v-if="scope.row.usestatus === 1">临时</div>
+        <div v-if="scope.row.usestatus === 0">作废</div>
+        <div v-if="scope.row.usestatus === 2">确认</div>
+        <div v-if="scope.row.usestatus === 3">采购订单已订货</div>
+        <div v-if="scope.row.usestatus === 4">配货已完成</div>
+      </template>
+    </el-table-column>
     <e-tables-columns prop="sourcetable" label="单据类型"></e-tables-columns>
     <e-tables-columns prop="invalidmanname" label="作废人"></e-tables-columns>
     <e-tables-columns-date-time prop="invalidday" label="作废日期" width="150"></e-tables-columns-date-time>
     <e-tables-columns prop="orderdtlid" label="采购订ID"></e-tables-columns>
-    <el-table-column prop="caozuo" label="操作" fixed="right" width="180">
+    <e-tables-columns prop="confirmname" label="确认人"></e-tables-columns>
+    <e-tables-columns-date-time prop="confirmdate" label="确认日期" width="150"></e-tables-columns-date-time>
+    <el-table-column prop="caozuo" label="操作" fixed="right" :width="emplevels !== 3?'320':'100'">
       <template slot-scope="scope">
-        <kt-button type="primary" icon="fa fa-edit" label="作废细单" perms="counter:ddpzqh:invoid" @click="ddpzphInvoid(scope.row)"></kt-button>
-        <kt-button type="primary" icon="fa fa-edit" label="确认细单" perms="counter:ddpzqh:confirm" @click="ddpzphConfirm(scope.row)"></kt-button>
-        <kt-button type="primary" icon="fa fa-edit" label="提前生成销售" perms="counter:ddpzqh:createsadoc" @click="ddpzphCreate(scope.row)"></kt-button>
+        <kt-button type="primary" icon="fa fa-edit" label="作废" perms="counter:ddpzqh:invoid" @click="ddpzphInvoid(scope.row)"></kt-button>
+        <kt-button  v-if="emplevels !== 3" type="primary" icon="fa fa-edit" label="确认" perms="counter:ddpzqh:confirm" @click="ddpzphConfirm(scope.row)"></kt-button>
+        <kt-button  v-if="emplevels !== 3" type="primary" icon="fa fa-edit" label="提前生成销售" perms="counter:ddpzqh:createsadoc" @click="ddpzphCreate(scope.row)"></kt-button>
       </template>
     </el-table-column>
   </e-tables>
@@ -58,10 +73,10 @@
       <el-form-item>
         <el-form :model="ddpzphQueryDocFrom" :inline="true" label-width="80px;" label-position="right">
           <el-form-item-hov v-show="emplevels === 2" prop="mdid" label="门店ID" id="mdid" v-model="ddpzphQueryDocFrom.mdid" hovWidth="120px"  @openHov="queryDocHov"></el-form-item-hov>
-          <el-form-item-hov prop="goodsid" label="货品ID" id="goodsid" v-model="ddpzphQueryDocFrom.goodsid" hovWidth="120px"></el-form-item-hov>
+          <el-form-item-hov prop="goodsid" label="货品ID" id="goodsid" v-model="ddpzphQueryDocFrom.goodsid" hovWidth="120px"  @openHov="queryDocHov"></el-form-item-hov>
           <el-form-item-input prop="goodsopcode" label="货品操作码" v-model="ddpzphQueryDocFrom.goodsopcode" inputWidth="120px"></el-form-item-input>
           <el-form-item-input prop="prodarea" label="货品产地" v-model="ddpzphQueryDocFrom.prodarea"></el-form-item-input>
-          <el-form-item>
+          <el-form-item style="float:left;">
             <el-button type="primary" icon="fa fa-search" @click="selectInsertDoc">查询</el-button>
           </el-form-item>
         </el-form>
@@ -91,7 +106,7 @@
           :data="ddpzphTableDtlData"
           :stripe="true"
           :header-cell-style="headerStyle"
-          :height="200"
+          :height="180"
           border
         >
           <el-table-column prop="goodsid" label="货品ID"></el-table-column>

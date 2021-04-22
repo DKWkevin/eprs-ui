@@ -17,7 +17,10 @@ export default {
     dtlData: {type: Object},
     docTitle: {type: String},
     cgzcOptions: {type: Array},
-    categoryid2Options: {type: Array}
+    categoryid2Options: {type: Array},
+    rolelayerOptions:{type: Array,default: () => {
+      return [];
+      }}
   },
   data() {
     return {
@@ -69,7 +72,8 @@ export default {
         ifctrlzb: false,
         sflcpz: false,
         sfyypz: false,
-        sfybml: false
+        sfybml: false,
+        layerid: null
       },
       drugtype: null,
       oldbase: {
@@ -305,6 +309,7 @@ export default {
           [
             {id: "categoryid", name: "品类ID", queryStatus: true, dataStatus: 2, fillid: 'categoryid'},
             {id: "categoryname", name: "品类名称", queryStatus: true, dataStatus: 1, fillid: 'categoryname'},
+            {id: "memo", name: "备注", queryStatus: true, dataStatus: 0},
             {id: "categoryopcode", name: "品类操作码",value:'6', queryStatus: true,display:1, dataStatus: 0}
           ]
       }

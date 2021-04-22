@@ -65,25 +65,29 @@ export default {
         this.$selectLoad.checkChild(this.areaOption, this.checkAll);
       }
     },
-    paramsLoad(data,array){
+    pushsubCity(data){
+      let Array = [];
       data.forEach(item => {
         if(item.check === true&&item.indeterminate === false){
-            let obj = {};
-            obj[item.valueName] = item.value;
-            obj.status = 0;
-            if(item.childName!==""){
-            obj[item.childName] = [];
-            }
-            array.push(obj);
+          let obj={};
+          obj.subcityid = item.value;
+          obj.status = 0;
+          obj.counetridbeanlst = [];
+          Array.push(obj);
         }else if(item.check === false && item.indeterminate === true){
-            let obj = {};
-            obj[item.valueName] = item.value;
-            obj.status = 1;
-            obj[item.childName] = [];
-            this.paramsLoad(item.children,obj[item.childName]);
-            array.push(obj);
+          let obj={};
+          obj.subcityid = item.value;
+          obj.status = 1;
+          obj.counterbeanlst = [];
+          item.children.forEach(counterItem => {
+            if (counterItem.check === true) {
+              obj.counterbeanlst.push({counterid:counterItem.value});
+            }
+          })
+          Array.push(obj);
         }
-      });
+      })
+      return Array;
     },
     istrueAll(data){
       let params = true;
@@ -104,11 +108,6 @@ export default {
         let counter = false;
         if (this.checkAll === true && this.istrueAll(this.areaOption) === true) {
           if (Number(sessionStorage['companyid']) === 19940) {
-            /*      let companyParams={};
-          companyParams.companyid = Number(sessionStorage['companyid']);
-          companyParams.status = 1;
-          companyParams.cityid = 19940;
-          companyParams.cityidbeanlst=[];*/
             this.areaOption.forEach(item => {
               let companyParams = {};
               companyParams.companyid = Number(sessionStorage['companyid']);
@@ -117,7 +116,6 @@ export default {
               companyParams.cityidbeanlst = [];
               params.push(companyParams)
             });
-            //params.push(companyParams)
           } else if (Number(sessionStorage['companyid']) === 3 || Number(sessionStorage['companyid']) === 93740) {
             this.areaOption.forEach(item => {
               let companyParams = {};
@@ -151,23 +149,17 @@ export default {
               companyParams.status = 1;
               companyParams.cityid = item.value;
               companyParams.cityidbeanlst = [];
-              this.paramsLoad(item.children, companyParams.cityidbeanlst);
+              let obj = {};
+              obj.status = 1;
+              obj.cityid = item.value;
+              obj.subcityidbeanlst = this.pushsubCity(item.children);
+              companyParams.cityidbeanlst.push(obj);
               params.push(companyParams)
             }
           });
           if (params.length > 0) {
             counter = true;
           }
-          //params.push(companyParams)
-          /*let companyParams = {};
-          companyParams.companyid = Number(sessionStorage['companyid']);
-          companyParams.status = 1;
-          companyParams.cityidbeanlst = [];
-          this.paramsLoad(this.areaOption, companyParams.cityidbeanlst);
-          if (companyParams.cityidbeanlst.length > 0) {
-            counter = true;
-          }
-          params.push(companyParams)*/
         }
         if (counter === false) {
           alert("请选择门店或地区");
@@ -175,7 +167,6 @@ export default {
         }
         parent.docData.savedisccounterlimitbeanlst = params;
         parent.docData.counterStatus = 0;
-        console.log(params)
       }else if(this.counterStatus === '1') {
         parent.docData.counterLst = this.execlParams;
         parent.docData.counterStatus = 1;

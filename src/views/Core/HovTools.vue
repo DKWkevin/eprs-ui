@@ -23,7 +23,7 @@
       @row-dblclick="cellDBLClickEvent"
        :data="tableData">
       <el-table-column v-for="(col, index) in tableColumns"
-       v-if="col.display!==1"
+       v-if="col.tableDisplay!==1"
        :prop="col.prop"
        :key="index"
        :label="col.label"
@@ -230,7 +230,7 @@ export default {
           this.formData[columns[i].id]=columns[i].value;
         }
         if(columns[i].hasOwnProperty('tableStatus')===false){
-          this.tableColumns.push({prop: columns[i].id, label: columns[i].name,type:columns[i].type,display:columns[i].display});
+          this.tableColumns.push({prop: columns[i].id, label: columns[i].name,type:columns[i].type,tableDisplay:columns[i].tableDisplay});
         }
         if(columns[i].hasOwnProperty("fillid")===true){
           this.backfill.push({fillid:columns[i].fillid,prop:columns[i].id});

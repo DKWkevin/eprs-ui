@@ -173,6 +173,7 @@
     :bzuseStatusOptions="bzuseStatusOptions"
     :cgzcOptions="cgzcOptions"
     :categoryid2Options="categoryid2Options"
+    :rolelayerOptions="rolelayerOptions"
     :docTitle="docTitle"
   ></hpjcsjwh-dtl>
   <hov-tools v-if="queryGoodsVisible" :hov-data="queryGoodsHov"></hov-tools>

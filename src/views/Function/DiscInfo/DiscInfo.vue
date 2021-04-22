@@ -74,10 +74,11 @@ export default
     stepLoad()
     {
       this.stepOption.push({card:'doc',title:'促销方案信息',description:'这是一张促销总单'});
-      let params = null;
+      let params = {};
       if(Number(sessionStorage['companyid']) !== 19940){
         params = {companyid:Number(sessionStorage['companyid'])};
       }
+      params.counterStatus = 2;
       this.$api.discInfo.cityid({pageNum:1,pageSize:999,params:params}).then(res => {
         if(res.code === 200){
           let cityArray=[];

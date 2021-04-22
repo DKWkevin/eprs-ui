@@ -16,13 +16,18 @@
           <el-form-item label="通用名拼音" style="width:190px;float:left">
             <el-input v-model="base.goodsformalpinyin" style="width:140px;float:left;"></el-input>
           </el-form-item>
-          <el-form-item label="商品名" style="width:440px;float:left;">
-            <el-input v-model="base.goodsformalname" style="width:340px;float:left;"></el-input>
+          <el-form-item label="商品名" style="width:280px;float:left;">
+            <el-input v-model="base.goodsformalname" style="width:200px;float:left;"></el-input>
           </el-form-item>
-          <el-form-item label="规格" style="width:260px;float:left" prop="goodstype">
+          <el-form-item label="商品层次" style="width:200px;float:left">
+            <el-select v-model="base.layerid"  style="width:120px;float:left;" clearable>
+              <el-option v-for="(item, index) in rolelayerOptions" :key="index" :value="item.layerid" :label="item.layername"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="规格" style="width:240px;float:left" prop="goodstype">
             <el-input v-model="base.goodstype" style="width:160px;float:left;"></el-input>
           </el-form-item>
-          <el-form-item label="货品标记" style="width:220px;float:left">
+          <el-form-item label="货品标记" style="width:200px;float:left">
             <el-input v-model="base.goodstag"  style="width:120px;float:left;"></el-input>
           </el-form-item>
           <el-form-item label="剂型" style="width:210px;float:left">

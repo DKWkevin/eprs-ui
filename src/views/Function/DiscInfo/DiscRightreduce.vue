@@ -352,7 +352,7 @@ export default {
            this.$api.discInfo.inserDiscInfo(params).then(res => {
              if(res.code === 200){
                if(res.data>0){
-                 alert("生成促销方案成功");
+                 alert("生成促销方案成功,促销单号为   "+res.data);
                  this.$parent.$parent.tabsRefreshCurrentHandle();
                }else{
                  alert(res.msg);

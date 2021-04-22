@@ -236,6 +236,7 @@ function selectRightReduce(value){
         _this.righteduceReducetype = 1;
       }
       _this.rightreduceData = res.data;
+      selectRightReduceLimit(res.data[0])
       _this.dtlLoading =false;
     }
   }).catch(() => {

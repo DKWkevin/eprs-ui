@@ -35,6 +35,7 @@ import * as qualitysearch from './modules/qualitysearch'
 import * as counter from './modules/counter'
 import * as jzt from './modules/jzt'
 import * as giftmanagement from './modules/giftmanagement'
+import * as crmflag from './modules/crmflag'
 
 // 默认全部导出
 export default {
@@ -71,5 +72,6 @@ export default {
   qualitysearch,
   counter,
   jzt,
-  giftmanagement
+  giftmanagement,
+  crmflag
 }

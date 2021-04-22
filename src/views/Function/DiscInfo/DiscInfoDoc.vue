@@ -151,7 +151,6 @@ export default {
       parent.nextCard=this.cardName;
     },
     ruleForm(){
-      console.log(this.base)
       this.$refs.base.validate((valid) =>
       {
         if(valid)

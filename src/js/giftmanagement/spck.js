@@ -238,7 +238,7 @@ export default {
                         name: "数量",
                         queryStatus: false,
                         dataStatus: 2,
-                        fillid: "goodsqty"
+                        // fillid: "goodsqty"
                     },
                     {
                         id: "lotno",

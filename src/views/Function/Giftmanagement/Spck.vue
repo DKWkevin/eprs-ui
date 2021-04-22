@@ -199,7 +199,7 @@
 
             <el-col :span="12">
               <el-form-item label="数量">
-                <el-input v-model="spck_base.goodsqty" @blur="getTotal" :disabled="true"></el-input>
+                <el-input v-model="spck_base.goodsqty" @blur="getTotal"></el-input>
               </el-form-item>
             </el-col>
 

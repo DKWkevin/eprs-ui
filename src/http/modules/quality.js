@@ -506,6 +506,14 @@ export const selectHpjcsjwhCgfzfl = (data) => {
     data
   })
 };
+//采购分组分类2
+export const selectHpjcsjwhRolelayer = (data) => {
+  return axios({
+    url: 'hpjbxx/selectrolelayer',
+    method: 'post',
+    data
+  })
+};
 //查询客户管理
 export const selectKhglDoc = (data) =>{
   return axios({

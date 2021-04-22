@@ -55,7 +55,35 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="12">
+            <el-col
+              :span="12"
+              v-if="cgqd_is19940"
+            >
+              <el-form-item
+                label="公司ID"
+                prop="companyid"
+                :rules="cgqd_form_rules.not_empty"
+              >
+                <el-input
+                  :style="cgqd_dtlstatus == false?'width:130px;':''"
+                  v-model.number="cgqd_base.companyid"
+                  :disabled="true"
+                  :validate-event="false"
+                ></el-input>
+                <el-button
+                  v-if="cgqd_dtlstatus == false"
+                  :disabled="companyDisabled"
+                  circle
+                  icon="el-icon-search"
+                  @click="openDailogHov('companyid')"
+                ></el-button>
+              </el-form-item>
+            </el-col>
+
+            <el-col
+              :span="12"
+              v-if="!cgqd_is19940"
+            >
               <el-form-item
                 label="公司ID"
                 prop="companyid"
@@ -106,7 +134,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item label="物流收货单位">
                 <el-select
                   v-model="cgqd_base.lmcompanyid"
@@ -120,6 +148,26 @@
                   ></el-option>
 
                 </el-select>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="12">
+              <el-form-item
+                label="物流收货单位"
+                prop="lmcompanyid"
+                :rules="cgqd_form_rules.not_empty"
+              >
+                <el-input
+                  style="width:130px;"
+                  v-model.number="cgqd_base.lmcompanyid"
+                  :disabled="true"
+                  :validate-event="false"
+                ></el-input>
+                <el-button
+                  v-if="cgqd_dtlstatus == false"
+                  circle
+                  icon="el-icon-search"
+                  @click="openDailogHov('lmcompanyid')"
+                ></el-button>
               </el-form-item>
             </el-col>
 
@@ -235,7 +283,9 @@
 
             <el-col :span="12">
               <el-form-item label="财务退货方式">
-                <el-input v-model="cgqd_base.backmode"></el-input>
+                <el-input v-model="cgqd_base.backmode"
+                :disabled="cgqd_dtlstatus === true"
+                ></el-input>
               </el-form-item>
             </el-col>
 
@@ -390,6 +440,64 @@
               </el-form-item>
             </el-col>
 
+            <el-col :span="12" v-if="this.cgqd_base.pcdtpeid==83670">
+              <el-form-item label="是否门店可退">
+                <el-select
+                  v-model="cgqd_base.ifback"
+                  :disabled="cgqd_dtlstatus === true"
+                  @change="setMinInvalid"
+                >
+                  <el-option
+                    :label="'不可退'"
+                    :value="'0'"
+                  ></el-option>
+                  <el-option
+                    :label="'可退'"
+                    :value="'1'"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12" v-if="this.cgqd_base.pcdtpeid==83670">
+              <el-form-item label="最小效期">
+                <el-input
+                  v-model="cgqd_base.mixinvalid"
+                  :disabled="true"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="this.cgqd_base.pcdtpeid==83670">
+              <el-form-item label="最大效期">
+                <el-input
+                  v-model="cgqd_base.maxinvalid"
+                  :disabled="true"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12" v-if="this.cgqd_base.pcdtpeid==83670">
+              <el-form-item label="备注">
+                <el-select
+                  v-model="cgqd_base.memo"
+                  :disabled="cgqd_dtlstatus === true"
+                >
+                  <el-option
+                    :label="'空'"
+                    :value="''"
+                  ></el-option>
+                  <el-option
+                    :label="'定期召回'"
+                    :value="'定期召回'"
+                  ></el-option>
+                  <el-option
+                    :label="'少量可退'"
+                    :value="'少量可退'"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
           </el-row>
         </el-form>
         <div
@@ -420,6 +528,16 @@
     <hov-tools
       v-if="cgqd_companyVisible"
       :hov-data="cgqd_companyHov"
+    ></hov-tools>
+
+    <hov-tools
+      v-if="cgqd_companyVisible_2"
+      :hov-data="cgqd_companyHov_2"
+    ></hov-tools>
+
+    <hov-tools
+      v-if="cgqd_companyVisible_3"
+      :hov-data="cgqd_companyHov_3"
     ></hov-tools>
 
     <hov-tools

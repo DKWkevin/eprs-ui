@@ -623,9 +623,7 @@ export default {
           params[keys[i]] = formData[keys[i]];
         }
       }
-      if (Object.keys(params).length <= 0) {
-        params = null;
-      }
+      params.companyid = Number(sessionStorage['companyid']);
       this.tableData = [];
       //查询表格 ajax
       this.$api.financial.selectYsk({pageNum: pageNum, pageSize: pageSize, params: params}).then(res => {

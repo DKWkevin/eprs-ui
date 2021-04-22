@@ -16,6 +16,7 @@ export default function (Vue) {
   Vue.prototype.formIsNull = functions.formIsNull;
   Vue.prototype.exportExcelDOM = functions.exportExcelDOM;
   Vue.prototype.getNewDate = functions.getNewDate;
+  Vue.prototype.numberDateFormat = functions.numberDateFormat;
   /*权限按钮*/
   Vue.component('kt-button', KtButton);
   /*hov*/

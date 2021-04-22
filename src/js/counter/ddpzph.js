@@ -11,7 +11,9 @@ export default {
       mdidDisabled:false,
       ddpzphFpztOptions: [{value:0,label:'未分配'},{value:1,label:'已分配'}],
       emplevels:null,
+      emplevelsStatus:false,
       deptid:null,
+      mdid:null,
       ddpzphTableData:[],
       ddpzphLoading: false,
       ddpzphPageNum:1,
@@ -36,7 +38,11 @@ export default {
       address:null,
       phone:null,
       ddpzphPsdzVisible:false,
-      ddpzphPsdzForm:{},
+      ddpzphPsdzForm:{
+        mdid:null,
+        address:null,
+        phone:null
+      },
       insertDoc:{
         mdid: null,
         goodsid: null,
@@ -69,7 +75,7 @@ export default {
         if (res.code === 200) {
           this.emplevels = res.data.levels;
           this.deptid = res.data.deptid;
-          if(res.data.emplevels === 1){
+          if(res.data.levels === 1){
             this.ddpzphQueryFrom.mdid = res.data.deptid;
             this.btnDisabled = true;
             this.mdidDisabled = true;
@@ -109,19 +115,19 @@ export default {
     },
     ddpzphInvoid(row) {
       if(this.emplevels===1||this.emplevels===2){
-        if(row.fpzt===1||row.fpzt===2){
-          if((row.orderdtlid===null||row.orderdtlid==="")&&(row.salesid===null||row.salesid==="")){
+        if(row.usestatus===1||row.usestatus===2){
+          if((row.orderdtlid===null||row.orderdtlid===""||row.orderdtlid===0)&&(row.salesid===null||row.salesid===""||row.salesid===0)){
           }else {
-            alert("不可作废");
+            alert("订单及销售单不为空或者0,不可作废");
             return false
           }
         }else {
-          alert("不可作废");
+          alert("单据状态不为临时或者已确认,不可作废");
           return false
         }
       }else {
-        if(row.salesid!==null&&row.salesid!==""){
-          alert("不可作废");
+        if(row.salesid!==null&&row.salesid!==""&&row.salesid!==0){
+          alert("已生成销售单,不可作废");
           return false
         }
       }
@@ -142,17 +148,21 @@ export default {
       }
     },
     ddpzphConfirm(row) {
-      if(this.emplevels === 1){
+      if(this.emplevels === 1||this.emplevels === 2){
         if(row.usestatus !==1){
-          alert("不能确认");
+          alert("单据状态不是临时,不能确认");
           return false;
         }
       }else{
-        alert("不能确认");
+        alert("不是门店人员或者地区人员,不能确认");
         return false;
       }
-      if(confirm("是否确认") === true){
-        this.$api.counter.confirmDdpzph({reqdtlid:row.reqdtlid,usestatus:2}).then(res => {
+      let str = "是否确认";
+      if(row.dismode === 2) {
+        str = "您当前选择的配送模式为快运，会立即生成物流配送单据，是否确认生成？";
+      }
+      if(confirm(str) === true){
+        this.$api.counter.confirmDdpzph({reqdtlid:row.reqdtlid,usestatus:2,mdid:row.mdid,dismode:row.dismode,confirmid:Number(sessionStorage['userid'])}).then(res => {
           if (res.code === 200) {
             alert("确认成功");
             this.selectDoc(this.ddpzphPageNum, this.ddpzphPageSize);
@@ -169,31 +179,36 @@ export default {
     },
     ddpzphCreate(row) {
       this.reqdtlid=row.reqdtlid;
-      if(this.emplevels ===1){
-
+      if(this.emplevels === 1||this.emplevels === 2){
+        if(row.usestatus === 2&&row.fpzt === 1&&(row.salesid === null||row.salesid === ""||row.salesid === 0)){}else{
+          alert('不能提前生成销售')
+          return false;
+        }
       }else{
         alert('不能提前生成销售')
         return false;
       }
-      if(confirm("是否修改地址") === true){
-        this.$api.counter.selectDdpzphAddress({mdid: row.mdid}).then(res => {
+      this.mdid = row.mdid;
+      this.$api.counter.selectDdpzphAddress({mdid: row.mdid}).then(res => {
           if(res.code === 200) {
             this.ddpzphPsdzForm.mdid = row.mdid;
             this.ddpzphPsdzForm.address = res.data.address;
             this.ddpzphPsdzForm.phone = res.data.phone;
-            this.addressStatus = false;
-            this.ddpzphPsdzVisible = true;
+            let str = "当前地址为："+res.data.address+",当前电话为："+res.data.phone+",是否修改地址";
+            if (confirm(str) === true) {
+              this.addressStatus = false;
+              this.ddpzphPsdzVisible = true;
+            } else {
+              this.createDdpzphs();
+            }
           }
-        }).catch(() => {
-          return false;
-        })
-      }else {
-        createDdpzphs();
-      }
+      }).catch(() => {
+        return false;
+      })
     },
     createDdpzphs(){
-      if(confirm("是否确认提前生成销售") === true){
-        this.$api.counter.createDdpzph({reqdtlid:this.reqdtlid}).then(res => {
+      if(confirm("您当前选择的配送模式为快运，会立即生成物流配送单据，是否确认生成？") === true){
+        this.$api.counter.createDdpzph({reqdtlid:this.reqdtlid,mdid:this.mdid,confirmid:Number(sessionStorage['userid'])}).then(res => {
           if (res.code === 200) {
             alert("确认成功");
             this.selectDoc(this.ddpzphPageNum, this.ddpzphPageSize);
@@ -252,13 +267,21 @@ export default {
     },
     cellDocClick(row){
       this.formIsNull(this.insertDoc);
-      this.insertDoc.mdid = this.deptid;
+      if(this.emplevels === 1) {
+        this.insertDoc.mdid = this.deptid;
+      }else {
+        this.insertDoc.mdid = this.ddpzphQueryDocFrom.mdid;
+      }
       this.insertDoc.goodsid = row.goodsid;
       this.insertDoc.unitprice = row.price;
       this.insertDoc.goodsqty = null;
       this.wlkcqty = row.remqty;
       this.psfsStatus = false;
-      this.selectMdkc(this.deptid, row.goodsid);
+      if(this.emplevels === 1) {
+        this.selectMdkc(this.deptid, row.goodsid);
+      }else {
+        this.selectMdkc(this.ddpzphQueryDocFrom.mdid, row.goodsid);
+      }
       this.selectInsertDtl(row.goodsid);
     },
     selectMdkc(mdid,goodsid){
@@ -336,10 +359,14 @@ export default {
       }
       if (confirm("是否确认保存") === true) {
         this.insertDoc.dismode = this.psfs;
+        this.insertDoc.inputmanid = Number(sessionStorage['userid']);
         this.$api.counter.insertDdpzph(this.insertDoc).then(res => {
           if (res.code === 200) {
             alert("保存成功");
             this.closeInsert();
+            this.ddpzphQueryFrom.mdid = this.insertDoc.mdid;
+            this.ddpzphQueryFrom.goodsid = this.insertDoc.goodsid;
+            this.selectDoc(1, this.ddpzphPageSize);
           }else {
             alert(res.msg);
             return false;
@@ -417,6 +444,7 @@ export default {
       this.formIsNull(this.ddpzphQueryDocFrom);
       this.ddpzphTableDocData = [];
       this.ddpzphTableDtlData = [];
+      this.psfsStatus = false;
       this.ddpzphInsertVisible = false;
     },
     closePsdz(){
